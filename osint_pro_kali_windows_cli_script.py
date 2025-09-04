@@ -126,19 +126,71 @@ MENU = f"""
 """
 
 SITE_TEMPLATES = {
+    "500px": "https://500px.com/p/{u}",
+    "AUR": "https://aur.archlinux.org/account/{u}",
+    "AO3": "https://archiveofourown.org/users/{u}",
+    "ArtStation": "https://www.artstation.com/{u}",
+    "Bandcamp": "https://{u}.bandcamp.com",
+    "Behance": "https://www.behance.net/{u}",
+    "Bitbucket": "https://bitbucket.org/{u}/",
+    "Bluesky": "https://bsky.app/profile/{u}",
+    "BuyMeACoffee": "https://www.buymeacoffee.com/{u}",
+    "CodePen": "https://codepen.io/{u}",
+    "Codeberg": "https://codeberg.org/{u}",
+    "Codeforces": "https://codeforces.com/profile/{u}",
+    "Dailymotion": "https://www.dailymotion.com/{u}",
+    "Dev.to": "https://dev.to/{u}",
+    "Docker Hub": "https://hub.docker.com/u/{u}",
+    "Dribbble": "https://dribbble.com/{u}",
+    "Facebook": "https://www.facebook.com/{u}",
+    "Flickr": "https://www.flickr.com/people/{u}/",
+    "Foursquare": "https://foursquare.com/{u}",
+    "Gab": "https://gab.com/{u}",
+    "Gitee": "https://gitee.com/{u}",
     "GitHub": "https://github.com/{u}",
     "GitLab": "https://gitlab.com/{u}",
-    "Reddit": "https://www.reddit.com/user/{u}/",
-    "X(Twitter)": "https://x.com/{u}",
+    "HackerNews": "https://news.ycombinator.com/user?id={u}",
+    "HackerOne": "https://hackerone.com/{u}",
+    "HackerRank": "https://www.hackerrank.com/profile/{u}",
     "Instagram": "https://www.instagram.com/{u}/",
-    "TikTok": "https://www.tiktok.com/@{u}",
-    "YouTube": "https://www.youtube.com/@{u}",
-    "Keybase": "https://keybase.io/{u}",
     "Kaggle": "https://www.kaggle.com/{u}",
+    "Keybase": "https://keybase.io/{u}",
+    "Ko-fi": "https://ko-fi.com/{u}",
+    "Last.fm": "https://www.last.fm/user/{u}",
+    "LeetCode": "https://leetcode.com/{u}/",
+    "Lobsters": "https://lobste.rs/u/{u}",
+    "Medium": "https://medium.com/@{u}",
+    "Mixcloud": "https://www.mixcloud.com/{u}/",
+    "MyAnimeList": "https://myanimelist.net/profile/{u}",
+    "NPM": "https://www.npmjs.com/~{u}",
+    "Observable": "https://observablehq.com/@{u}",
+    "Packagist": "https://packagist.org/users/{u}",
+    "Patreon": "https://www.patreon.com/{u}",
+    "PayPal.me": "https://www.paypal.me/{u}",
     "Pinterest": "https://www.pinterest.com/{u}/",
-    "DeviantArt": "https://www.deviantart.com/{u}",
+    "ProductHunt": "https://www.producthunt.com/@{u}",
+    "PyPI": "https://pypi.org/user/{u}/",
+    "Quora": "https://www.quora.com/profile/{u}",
+    "Reddit": "https://www.reddit.com/user/{u}/",
+    "Replit": "https://replit.com/@{u}",
+    "Scratch": "https://scratch.mit.edu/users/{u}/",
+    "Snapchat": "https://www.snapchat.com/add/{u}",
+    "SourceForge": "https://sourceforge.net/u/{u}/",
+    "SourceHut": "https://sr.ht/~{u}",
     "SoundCloud": "https://soundcloud.com/{u}",
+    "Spotify": "https://open.spotify.com/user/{u}",
+    "StackBlitz": "https://stackblitz.com/@{u}",
+    "Steam": "https://steamcommunity.com/id/{u}",
+    "Telegram": "https://t.me/{u}",
+    "Threads": "https://www.threads.net/@{u}",
+    "TikTok": "https://www.tiktok.com/@{u}",
+    "Twitch": "https://www.twitch.tv/{u}",
+    "Tumblr": "https://{u}.tumblr.com",
+    "Twitter/X": "https://x.com/{u}",
     "TryHackMe": "https://tryhackme.com/p/{u}",
+    "Vimeo": "https://vimeo.com/{u}",
+    "VK": "https://vk.com/{u}",
+    "YouTube": "https://www.youtube.com/@{u}"
 }
 
 
@@ -188,7 +240,7 @@ def username_checker():
     print_heading(f"Username reconnaissance — {username}")
 
     rows = []
-    with ThreadPoolExecutor(max_workers=10) as ex:
+    with ThreadPoolExecutor(max_workers=min(24, len(SITE_TEMPLATES))) as ex:
         futures = [ex.submit(check_one_site, s, t, username) for s, t in SITE_TEMPLATES.items()]
         for fut in as_completed(futures):
             site, url, exists, note = fut.result()
